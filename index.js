@@ -20,7 +20,7 @@ const saveProfile= async()=>{
 
 // let response = await fetch('http://localhost:1113/profile/getProfiles');
 // console.log(response);
-let response1 = await fetch('http://localhost:1113/profile/details',{
+let response1 = await fetch('https://localhost:1113/profile/details',{
     method:'POST',
     headers:{
         Accept: 'application/json',
@@ -63,7 +63,7 @@ const getProfile = async () => {
   let profileId = document.getElementById('profile-id').value;
 
   // Ensure the URL is correct by fixing the string interpolation
-  let response3 = await fetch(`http://helpful-commitment-production.up.railway.app/profile-app/api/profile/${profileId}`, {
+  let response3 = await fetch(`https://helpful-commitment-production.up.railway.app/profile-app/api/profile/${profileId}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

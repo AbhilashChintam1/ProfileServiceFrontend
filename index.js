@@ -59,23 +59,42 @@ retry.addEventListener('click', () => {
 );
 
 
-const getProfile = async()=>{
-  let profileId =document.getElementById('profile-id').value;
-  
-  let response3 =await fetch(`http://localhost:1113/profile/getProfile/${profileId}`,{
-    method:'GET',
-    headers:{
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+const getProfile = async () => {
+  let profileId = document.getElementById('profile-id').value;
+
+  // Ensure the URL is correct by fixing the string interpolation
+  let response3 = await fetch(`http://helpful-commitment-production.up.railway.app/profile-app/api/profile/${profileId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     },
   });
-  let data= await response3.text();
+
+  let data = await response3.text();
+
   try {
     let jsonData = JSON.parse(data);
-    modalBodyGetProfile.textContent = Object.values(jsonData).join(', ');
+
+    // Extract the address information
+    const address = jsonData.addressResponse
+      ? `Address: ${jsonData.addressResponse.lane1}, ${jsonData.addressResponse.lane2}, ${jsonData.addressResponse.city}, ${jsonData.addressResponse.state}`
+      : 'Address: N/A';
+
+    // Format the output as desired with <br> tags for line breaks
+    const profileDetails = `
+      Name: ${jsonData.name} <br>
+      Mobile Number: ${jsonData.mobileNumber} <br>
+      Country: ${jsonData.country} <br>
+      ${address}
+    `;
+
+    // Display the formatted result in the modal
+    modalBodyGetProfile.innerHTML = profileDetails; // Use innerHTML instead of textContent to render HTML tags
   } catch (error) {
-    modalBodyGetProfile.textContent = data;
+    modalBodyGetProfile.textContent = `Error: ${error.message}`;
   }
+
   getProfileSubmit.classList.add('hide');
   getProfileCloseSymbol.classList.add('hide');
 };
